@@ -10,15 +10,18 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let tabBarController = UITabBarController()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = ViewController()
+        window.rootViewController = tabBarController
         self.window = window
         window.makeKeyAndVisible()
+        
+        setChildViewControllers()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -55,3 +58,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension SceneDelegate {
+    func setChildViewControllers() {
+        let searchVC = SearchBookVC()
+        searchVC.navigationItem.title = "Search Book"
+        
+        let bookCartVC = BookCartVC()
+        bookCartVC.navigationItem.title = "Book Cart"
+        
+        self.tabBarController.setViewControllers([searchVC, bookCartVC], animated: false)
+    }
+}

@@ -5,4 +5,12 @@
 //  Created by 황석현 on 12/23/24.
 //
 
-import Foundation
+import UIKit
+
+class SearchBookVC: UIViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("SearchBookVC DidLoad")
+    }
+}
