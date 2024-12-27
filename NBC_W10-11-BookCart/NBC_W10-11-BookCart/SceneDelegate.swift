@@ -16,12 +16,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        let bookCartVC = UINavigationController(rootViewController: BookCartVC())
+        let seachBookVC = UINavigationController(rootViewController: SearchBookVC())
+        
         let window = UIWindow(windowScene: windowScene)
+        tabBarController.setViewControllers([seachBookVC, bookCartVC], animated: true)
+        
+        if let items = tabBarController.tabBar.items {
+            items[0].selectedImage = UIImage(systemName: "magnifyingglass.circle")
+            items[0].image = UIImage(systemName: "magnifyingglass.circle.fill")
+            items[0].title = "Search Book"
+            
+            items[1].selectedImage = UIImage(systemName: "cart")
+            items[1].image = UIImage(systemName: "cart.fill")
+            items[1].title = "Book Cart"
+        }
+        
         window.rootViewController = tabBarController
         self.window = window
         window.makeKeyAndVisible()
         
-        setChildViewControllers()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -53,19 +67,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
-    }
-
-
-}
-
-extension SceneDelegate {
-    func setChildViewControllers() {
-        let searchVC = SearchBookVC()
-        searchVC.navigationItem.title = "Search Book"
-        
-        let bookCartVC = BookCartVC()
-        bookCartVC.navigationItem.title = "Book Cart"
-        
-        self.tabBarController.setViewControllers([searchVC, bookCartVC], animated: false)
     }
 }

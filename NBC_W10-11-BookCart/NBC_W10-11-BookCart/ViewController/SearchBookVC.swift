@@ -9,8 +9,15 @@ import UIKit
 
 class SearchBookVC: UIViewController {
     
+    private let searchView = SearchBookView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("SearchBookVC DidLoad")
+        // Do any additional setup after loading the view.
+        view.addSubview(searchView)
+        
+        searchView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }

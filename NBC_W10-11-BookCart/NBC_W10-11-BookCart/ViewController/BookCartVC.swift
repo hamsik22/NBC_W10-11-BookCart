@@ -9,6 +9,8 @@ import UIKit
 
 class BookCartVC: UIViewController {
     
+    let bookCart = BookCartView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("BookCart DidLoad")

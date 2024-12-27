@@ -58,13 +58,6 @@
 			);
 			target = C30EE0CC2D193F62008DCBDA /* NBC_W10-11-BookCartUITests */;
 		};
-		C30EE15E2D19450C008DCBDA /* Exceptions for "Resources" folder in "NBC_W10-11-BookCart" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				NBC_W10_11_BookCart.xcdatamodeld,
-			);
-			target = C30EE0A92D193F60008DCBDA /* NBC_W10-11-BookCart */;
-		};
 		C30EE1672D194B81008DCBDA /* Exceptions for "NBC_W10-11-BookCart" folder in "NBC_W10-11-BookCart" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -73,16 +66,6 @@
 			target = C30EE0A92D193F60008DCBDA /* NBC_W10-11-BookCart */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		C30EE15F2D19450C008DCBDA /* Exceptions for "Resources" folder in "Compile Sources" phase from "NBC_W10-11-BookCart" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = C30EE0A62D193F60008DCBDA /* Sources */;
-			membershipExceptions = (
-				NBC_W10_11_BookCart.xcdatamodeld,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C30EE1472D1944A7008DCBDA /* NBC_W10-11-BookCart */ = {
@@ -105,10 +88,6 @@
 		};
 		C30EE15D2D194507008DCBDA /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				C30EE15E2D19450C008DCBDA /* Exceptions for "Resources" folder in "NBC_W10-11-BookCart" target */,
-				C30EE15F2D19450C008DCBDA /* Exceptions for "Resources" folder in "Compile Sources" phase from "NBC_W10-11-BookCart" target */,
-			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
