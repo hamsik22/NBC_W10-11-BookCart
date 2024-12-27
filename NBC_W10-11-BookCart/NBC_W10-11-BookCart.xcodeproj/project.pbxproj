@@ -34,7 +34,31 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C30EE0D52D193F62008DCBDA /* Exceptions for "NBC_W10-11-BookCart" folder in "NBC_W10-11-BookCart" target */ = {
+		C30EE15A2D1944C0008DCBDA /* Exceptions for "Tests" folder in "NBC_W10-11-BookCart" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"NBC_W10-11-BookCartTests/NBC_W10_11_BookCartTests.swift",
+				"NBC_W10-11-BookCartUITests/NBC_W10_11_BookCartUITests.swift",
+				"NBC_W10-11-BookCartUITests/NBC_W10_11_BookCartUITestsLaunchTests.swift",
+			);
+			target = C30EE0A92D193F60008DCBDA /* NBC_W10-11-BookCart */;
+		};
+		C30EE15B2D1944C0008DCBDA /* Exceptions for "Tests" folder in "NBC_W10-11-BookCartTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"NBC_W10-11-BookCartTests/NBC_W10_11_BookCartTests.swift",
+			);
+			target = C30EE0C22D193F62008DCBDA /* NBC_W10-11-BookCartTests */;
+		};
+		C30EE15C2D1944C0008DCBDA /* Exceptions for "Tests" folder in "NBC_W10-11-BookCartUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"NBC_W10-11-BookCartUITests/NBC_W10_11_BookCartUITests.swift",
+				"NBC_W10-11-BookCartUITests/NBC_W10_11_BookCartUITestsLaunchTests.swift",
+			);
+			target = C30EE0CC2D193F62008DCBDA /* NBC_W10-11-BookCartUITests */;
+		};
+		C30EE1672D194B81008DCBDA /* Exceptions for "NBC_W10-11-BookCart" folder in "NBC_W10-11-BookCart" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -44,22 +68,27 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C30EE0AC2D193F60008DCBDA /* NBC_W10-11-BookCart */ = {
+		C30EE1472D1944A7008DCBDA /* NBC_W10-11-BookCart */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C30EE0D52D193F62008DCBDA /* Exceptions for "NBC_W10-11-BookCart" folder in "NBC_W10-11-BookCart" target */,
+				C30EE1672D194B81008DCBDA /* Exceptions for "NBC_W10-11-BookCart" folder in "NBC_W10-11-BookCart" target */,
 			);
 			path = "NBC_W10-11-BookCart";
 			sourceTree = "<group>";
 		};
-		C30EE0C62D193F62008DCBDA /* NBC_W10-11-BookCartTests */ = {
+		C30EE1512D1944BB008DCBDA /* Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "NBC_W10-11-BookCartTests";
+			exceptions = (
+				C30EE15A2D1944C0008DCBDA /* Exceptions for "Tests" folder in "NBC_W10-11-BookCart" target */,
+				C30EE15B2D1944C0008DCBDA /* Exceptions for "Tests" folder in "NBC_W10-11-BookCartTests" target */,
+				C30EE15C2D1944C0008DCBDA /* Exceptions for "Tests" folder in "NBC_W10-11-BookCartUITests" target */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
-		C30EE0D02D193F62008DCBDA /* NBC_W10-11-BookCartUITests */ = {
+		C30EE15D2D194507008DCBDA /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "NBC_W10-11-BookCartUITests";
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -93,9 +122,9 @@
 		C30EE0A12D193F60008DCBDA = {
 			isa = PBXGroup;
 			children = (
-				C30EE0AC2D193F60008DCBDA /* NBC_W10-11-BookCart */,
-				C30EE0C62D193F62008DCBDA /* NBC_W10-11-BookCartTests */,
-				C30EE0D02D193F62008DCBDA /* NBC_W10-11-BookCartUITests */,
+				C30EE15D2D194507008DCBDA /* Resources */,
+				C30EE1512D1944BB008DCBDA /* Tests */,
+				C30EE1472D1944A7008DCBDA /* NBC_W10-11-BookCart */,
 				C30EE0AB2D193F60008DCBDA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -126,7 +155,9 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C30EE0AC2D193F60008DCBDA /* NBC_W10-11-BookCart */,
+				C30EE1472D1944A7008DCBDA /* NBC_W10-11-BookCart */,
+				C30EE1512D1944BB008DCBDA /* Tests */,
+				C30EE15D2D194507008DCBDA /* Resources */,
 			);
 			name = "NBC_W10-11-BookCart";
 			packageProductDependencies = (
@@ -149,9 +180,6 @@
 			dependencies = (
 				C30EE0C52D193F62008DCBDA /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				C30EE0C62D193F62008DCBDA /* NBC_W10-11-BookCartTests */,
-			);
 			name = "NBC_W10-11-BookCartTests";
 			packageProductDependencies = (
 			);
@@ -171,9 +199,6 @@
 			);
 			dependencies = (
 				C30EE0CF2D193F62008DCBDA /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				C30EE0D02D193F62008DCBDA /* NBC_W10-11-BookCartUITests */,
 			);
 			name = "NBC_W10-11-BookCartUITests";
 			packageProductDependencies = (

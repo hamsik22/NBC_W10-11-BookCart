@@ -10,15 +10,32 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let tabBarController = UITabBarController()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        let bookCartVC = UINavigationController(rootViewController: BookCartVC())
+        let seachBookVC = UINavigationController(rootViewController: SearchBookVC())
+        
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = ViewController()
+        tabBarController.setViewControllers([seachBookVC, bookCartVC], animated: true)
+        
+        if let items = tabBarController.tabBar.items {
+            items[0].selectedImage = UIImage(systemName: "magnifyingglass.circle")
+            items[0].image = UIImage(systemName: "magnifyingglass.circle.fill")
+            items[0].title = "Search Book"
+            
+            items[1].selectedImage = UIImage(systemName: "cart")
+            items[1].image = UIImage(systemName: "cart.fill")
+            items[1].title = "Book Cart"
+        }
+        
+        window.rootViewController = tabBarController
         self.window = window
         window.makeKeyAndVisible()
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -51,7 +68,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
-
-
 }
-
