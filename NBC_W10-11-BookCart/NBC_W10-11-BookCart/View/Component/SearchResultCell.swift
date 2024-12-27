@@ -68,9 +68,9 @@ class SearchResultCell: UITableViewCell {
         }
     }
     
-    func configure(title: String, author: String, price: String) {
+    func configure(title: String, author: [String], price: String) {
         bookTitleLabel.text = title
-        authorLabel.text = author
+        authorLabel.text = author.joined(separator: "\n")
         priceLabel.text = price
     }
     

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>APIKey</key>
-	<string>$(APIKeys)</string>
+	<string>$(APIKey)</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict/>

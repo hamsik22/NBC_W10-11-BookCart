@@ -10,7 +10,7 @@ import SnapKit
 
 class SearchBookView: UIView {
     
-    private let searchBar: UISearchBar = {
+    let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "검색하기"
         searchBar.searchTextField.backgroundColor = .systemBackground

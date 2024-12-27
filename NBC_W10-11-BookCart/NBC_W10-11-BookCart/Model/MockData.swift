@@ -8,16 +8,16 @@
 import Foundation
 
 struct MockData {
-    static let books: [Book] = [
-        Book(title: "세이노의 가르침", author: "세이노", price: 14000),
-        Book(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000),
-        Book(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000),
-        Book(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000),
-        Book(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000),
-        Book(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000)]
+    static let books: [MockBook] = [
+        MockBook(title: "세이노의 가르침", author: "세이노", price: 14000),
+        MockBook(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000),
+        MockBook(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000),
+        MockBook(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000),
+        MockBook(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000),
+        MockBook(title: "실용주의 프로그래머", author: "데이비드 토머스", price: 18000)]
 }
 
-struct Book {
+struct MockBook {
     let title: String
     let author: String
     let price: Double
