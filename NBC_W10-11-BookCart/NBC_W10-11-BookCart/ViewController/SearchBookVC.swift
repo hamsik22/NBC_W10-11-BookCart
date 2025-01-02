@@ -61,6 +61,7 @@ extension SearchBookVC: UITableViewDelegate {
         searchView.searchResultTableView.deselectRow(at: indexPath, animated: true)
         let bookDetail = BookDetailVC()
         bookDetail.modalPresentationStyle = .formSheet
+        bookDetail.bookInfo = books[indexPath.row]
         present(bookDetail, animated: true)
     }
 }

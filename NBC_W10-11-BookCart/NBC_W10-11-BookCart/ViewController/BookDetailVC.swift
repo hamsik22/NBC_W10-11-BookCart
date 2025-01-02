@@ -11,11 +11,13 @@ import SnapKit
 class BookDetailVC: UIViewController {
     
     let bookDetail = BookDetailView()
+    var bookInfo: BookInfo?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("BookDetailVC")
         bookDetail.delegate = self
+        bookDetail.bookInfo = bookInfo
         setup()
     }
     

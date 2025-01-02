@@ -16,6 +16,15 @@ protocol BookDetailDelegate: AnyObject {
 class BookDetailView: UIView {
     
     weak var delegate: BookDetailDelegate?
+    var bookInfo: BookInfo? {
+        didSet {
+            titleLabel.text = bookInfo?.title
+            authorLabel.text = bookInfo?.authors.joined(separator: "\n")
+            //TODO: bookImage.image = bookInfo?.thumbnail
+            priceLabel.text = "\(bookInfo?.price ?? 0000)"
+            descriptionLabel.text = bookInfo?.contents
+        }
+    }
     
     private let titleLabel: UILabel = {
         let label = UILabel()
