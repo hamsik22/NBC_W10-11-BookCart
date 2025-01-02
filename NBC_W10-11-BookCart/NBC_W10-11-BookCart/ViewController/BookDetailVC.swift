@@ -15,6 +15,7 @@ class BookDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("BookDetailVC")
+        bookDetail.delegate = self
         setup()
     }
     
@@ -27,7 +28,19 @@ class BookDetailVC: UIViewController {
             make.width.equalToSuperview()
         }
     }
+}
 
+// MARK: - Delegate
+extension BookDetailVC: BookDetailDelegate {
+    func exitButtonTapped() {
+        dismiss(animated: true)
+    }
+    
+    func addCartButtonTapped() {
+        print("addCartButtonTapped")
+    }
+    
+    
 }
 
 @available(iOS 17.0, *)

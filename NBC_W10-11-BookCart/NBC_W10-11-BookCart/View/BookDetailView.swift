@@ -8,7 +8,14 @@
 import UIKit
 import SnapKit
 
+protocol BookDetailDelegate: AnyObject {
+    func exitButtonTapped()
+    func addCartButtonTapped()
+}
+
 class BookDetailView: UIView {
+    
+    weak var delegate: BookDetailDelegate?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -62,11 +69,21 @@ class BookDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+// MARK: - Functions
+extension BookDetailView {
     private func setup() {
-        [
-            titleLabel, authorLabel, bookImage, priceLabel, descriptionLabel, exitButton, addCartButton
+        
+        // Add SubViews
+        [titleLabel, authorLabel, bookImage, priceLabel, descriptionLabel, exitButton, addCartButton
         ].forEach{ addSubview($0) }
         
+        // Add Target
+        exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
+        addCartButton.addTarget(self, action: #selector(addCartButtonTapped), for: .touchUpInside)
+        
+        // Layouts
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
@@ -110,6 +127,12 @@ class BookDetailView: UIView {
             make.trailing.equalToSuperview().offset(-10)
             make.height.equalTo(50)
         }
+    }
+    @objc private func exitButtonTapped() {
+        delegate?.exitButtonTapped()
+    }
+    @objc private func addCartButtonTapped() {
+        delegate?.addCartButtonTapped()
     }
 }
 
