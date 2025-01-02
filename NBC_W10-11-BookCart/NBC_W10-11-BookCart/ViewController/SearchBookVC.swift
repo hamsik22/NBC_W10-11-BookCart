@@ -14,6 +14,7 @@ class SearchBookVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("SearchBookVC")
         // Do any additional setup after loading the view.
         setup()
     }
@@ -53,10 +54,14 @@ extension SearchBookVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         70
     }
+    
 }
 extension SearchBookVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         searchView.searchResultTableView.deselectRow(at: indexPath, animated: true)
+        let bookDetail = BookDetailVC()
+        bookDetail.modalPresentationStyle = .formSheet
+        present(bookDetail, animated: true)
     }
 }
 extension SearchBookVC: UISearchBarDelegate {

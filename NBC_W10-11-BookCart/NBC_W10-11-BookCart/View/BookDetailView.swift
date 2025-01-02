@@ -115,5 +115,5 @@ class BookDetailView: UIView {
 
 @available(iOS 17.0, *)
 #Preview {
-    BooKDetailVC()
+    BookDetailVC()
 }

@@ -8,16 +8,18 @@
 import UIKit
 import SnapKit
 
-class BooKDetailVC: UIViewController {
+class BookDetailVC: UIViewController {
     
     let bookDetail = BookDetailView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("BookDetailVC")
         setup()
     }
     
     private func setup() {
+        view.backgroundColor = .white
         view.addSubview(bookDetail)
         
         bookDetail.snp.makeConstraints { make in
@@ -30,5 +32,5 @@ class BooKDetailVC: UIViewController {
 
 @available(iOS 17.0, *)
 #Preview {
-    BooKDetailVC()
+    BookDetailVC()
 }
