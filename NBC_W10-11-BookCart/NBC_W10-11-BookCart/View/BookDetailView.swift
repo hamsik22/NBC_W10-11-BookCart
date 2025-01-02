@@ -20,7 +20,7 @@ class BookDetailView: UIView {
         didSet {
             titleLabel.text = bookInfo?.title
             authorLabel.text = bookInfo?.authors.joined(separator: "\n")
-            //TODO: bookImage.image = bookInfo?.thumbnail
+            loadImage(url: bookInfo?.thumbnail)
             priceLabel.text = "\(bookInfo?.price ?? 0000)"
             descriptionLabel.text = bookInfo?.contents
         }
@@ -136,6 +136,28 @@ extension BookDetailView {
             make.trailing.equalToSuperview().offset(-10)
             make.height.equalTo(50)
         }
+    }
+    private func loadImage(url: String?) {
+        guard let urlString = url else {
+            print("No URL")
+            return }
+        guard let url = URL(string: urlString) else {
+            print("Wrong URL")
+            return }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            if let error = error {
+                print("NetworkError: \(error.localizedDescription)")
+            }
+            guard let data = data, let image = UIImage(data: data) else {
+                print("Can't get Image")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self?.bookImage.image = image
+            }
+        }.resume()
     }
     @objc private func exitButtonTapped() {
         delegate?.exitButtonTapped()
