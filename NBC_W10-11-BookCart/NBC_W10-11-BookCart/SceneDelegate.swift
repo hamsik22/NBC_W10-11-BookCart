@@ -17,10 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let bookCartVC = UINavigationController(rootViewController: BookCartVC())
-        let seachBookVC = UINavigationController(rootViewController: SearchBookVC())
+        let searchBookVC = UINavigationController(rootViewController: SearchBookVC())
         
         let window = UIWindow(windowScene: windowScene)
-        tabBarController.setViewControllers([seachBookVC, bookCartVC], animated: true)
+        tabBarController.setViewControllers([searchBookVC, bookCartVC], animated: true)
         
         if let items = tabBarController.tabBar.items {
             items[0].selectedImage = UIImage(systemName: "magnifyingglass.circle")
@@ -35,6 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = tabBarController
         self.window = window
         window.makeKeyAndVisible()
+        print(tabBarController.viewControllers)
         
     }
 

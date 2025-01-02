@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 
-class SearchResultCell: UITableViewCell {
+class ReusableCell: UITableViewCell {
     
-    static let identifier: String = "SearchResultCell"
+    static let identifier: String = "ReusableCell"
     
     private let bookTitleLabel: UILabel = {
         let label = UILabel()

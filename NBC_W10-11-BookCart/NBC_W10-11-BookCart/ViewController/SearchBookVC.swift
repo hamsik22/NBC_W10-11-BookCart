@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol SearchBookVCDelegate: AnyObject {
+    func didSelectBook()
+    func activateSearchBar()
+}
+
 class SearchBookVC: UIViewController {
     
     private let searchView = SearchBookView()
@@ -19,21 +24,15 @@ class SearchBookVC: UIViewController {
         setup()
     }
     
-    private func setup() {
-        navigationController?.isNavigationBarHidden = true
-        searchView.searchResultTableView.delegate = self
-        searchView.searchResultTableView.dataSource = self
-        searchView.searchResultTableView.register(SearchResultCell.self, forCellReuseIdentifier: SearchResultCell.identifier)
-        searchView.searchBar.delegate = self
-        
-        view.addSubview(searchView)
-        
-        searchView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.width.equalToSuperview().inset(10)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.centerX.equalToSuperview()
-        }
+}
+
+// MARK: - Delegate
+extension SearchBookVC: SearchBookVCDelegate {
+    func didSelectBook() {
+        self.showAlert(title: "성공", message: "카트에 담았어요!")
+    }
+    func activateSearchBar() {
+        self.searchView.searchBar.becomeFirstResponder()
     }
 }
 
@@ -44,7 +43,7 @@ extension SearchBookVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = searchView.searchResultTableView.dequeueReusableCell(withIdentifier: SearchResultCell.identifier, for: indexPath) as? SearchResultCell else { return UITableViewCell() }
+        guard let cell = searchView.searchResultTableView.dequeueReusableCell(withIdentifier: ReusableCell.identifier, for: indexPath) as? ReusableCell else { return UITableViewCell() }
         
         cell.configure(title: self.books[indexPath.row].title, author: self.books[indexPath.row].authors, price: String(self.books[indexPath.row].price))
         
@@ -62,6 +61,13 @@ extension SearchBookVC: UITableViewDelegate {
         let bookDetail = BookDetailVC()
         bookDetail.modalPresentationStyle = .formSheet
         bookDetail.bookInfo = books[indexPath.row]
+        
+        if let tabBarController = self.tabBarController,
+           let cartNav = tabBarController.viewControllers?[1] as? UINavigationController,
+           let cartVC = cartNav.viewControllers.first as? BookCartVC {
+            bookDetail.bookCartDelegate = cartVC
+            bookDetail.searchBookDelegate = self
+        }
         present(bookDetail, animated: true)
     }
 }
@@ -80,10 +86,30 @@ extension SearchBookVC: UISearchBarDelegate {
                 }
             }
         }
+        view.endEditing(true)
+    }
+}
+// MARK: - Functions
+extension SearchBookVC {
+    private func setup() {
+        navigationController?.isNavigationBarHidden = true
+        searchView.searchResultTableView.delegate = self
+        searchView.searchResultTableView.dataSource = self
+        searchView.searchResultTableView.register(ReusableCell.self, forCellReuseIdentifier: ReusableCell.identifier)
+        searchView.searchBar.delegate = self
+        
+        
+        view.addSubview(searchView)
+        
+        searchView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.width.equalToSuperview().inset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.centerX.equalToSuperview()
+        }
     }
 }
 
-// MARK: - Preview
 @available(iOS 17.0, *)
 #Preview {
     UINavigationController(rootViewController: SearchBookVC())

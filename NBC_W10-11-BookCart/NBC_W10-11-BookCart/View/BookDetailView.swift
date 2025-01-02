@@ -16,6 +16,7 @@ protocol BookDetailDelegate: AnyObject {
 class BookDetailView: UIView {
     
     weak var delegate: BookDetailDelegate?
+    
     var bookInfo: BookInfo? {
         didSet {
             titleLabel.text = bookInfo?.title
@@ -29,43 +30,48 @@ class BookDetailView: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "제목 레이블"
-        label.backgroundColor = .blue
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textAlignment = .center
         return label
     }()
     private let authorLabel: UILabel = {
         let label = UILabel()
         label.text = "작가 이름"
-        label.backgroundColor = .brown
+        label.font = .boldSystemFont(ofSize: 12)
+        label.textAlignment = .center
         return label
     }()
     private let bookImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "book")
-        imageView.backgroundColor = .cyan
         return imageView
     }()
     private let priceLabel: UILabel = {
         let label = UILabel()
         label.text = "가격 레이블"
-        label.backgroundColor = .red
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textAlignment = .center
         return label
     }()
     private let descriptionLabel: UITextView = {
         let textView = UITextView()
         textView.text = "책 설명란"
-        textView.backgroundColor = .yellow
         return textView
     }()
     private let exitButton: UIButton = {
        let button = UIButton()
         button.setTitle("X", for: .normal)
-        button.backgroundColor = .darkGray
+        button.backgroundColor = .gray
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        button.layer.cornerRadius = 15
         return button
     }()
     private let addCartButton: UIButton = {
         let button = UIButton()
         button.setTitle("담기", for: .normal)
-        button.backgroundColor = .green
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 25, weight: .bold)
+        button.backgroundColor = .systemGreen
+        button.layer.cornerRadius = 15
         return button
     }()
     
@@ -96,21 +102,21 @@ extension BookDetailView {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
+            make.width.equalTo(350)
             make.height.equalTo(50)
         }
         
         authorLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
+            make.width.equalTo(350)
             make.height.equalTo(50)
         }
         bookImage.snp.makeConstraints { make in
             make.top.equalTo(authorLabel.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(250)
-            make.height.equalTo(350)
+            make.height.equalTo(300)
         }
         priceLabel.snp.makeConstraints { make in
             make.top.equalTo(bookImage.snp.bottom).offset(10)
@@ -122,7 +128,7 @@ extension BookDetailView {
             make.top.equalTo(priceLabel.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(250)
-            make.height.equalTo(100)
+            make.height.equalTo(150)
         }
         exitButton.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(10)
