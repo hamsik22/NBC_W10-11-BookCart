@@ -14,7 +14,6 @@ class SearchBookView: UIView {
         let searchBar = UISearchBar()
         searchBar.placeholder = "검색하기"
         searchBar.searchTextField.backgroundColor = .systemBackground
-        searchBar.searchTextField.clipsToBounds = true
         searchBar.layer.borderWidth = 3
         searchBar.layer.cornerRadius = 20
         return searchBar
@@ -41,8 +40,10 @@ class SearchBookView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - SetUp
+}
+
+// MARK: - Functions
+extension SearchBookView {
     private func setup() {
         [searchBar, resultBookLabel, searchResultTableView]
             .forEach{ addSubview($0)}

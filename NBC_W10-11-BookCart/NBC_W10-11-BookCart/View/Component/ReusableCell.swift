@@ -8,15 +8,16 @@
 import UIKit
 import SnapKit
 
-class SearchResultCell: UITableViewCell {
+class ReusableCell: UITableViewCell {
     
-    static let identifier: String = "SearchResultCell"
+    static let identifier: String = "ReusableCell"
     
     private let bookTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .bold)
         label.textColor = .black
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -53,17 +54,20 @@ class SearchResultCell: UITableViewCell {
         bookTitleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(10)
+            make.width.equalTo(150)
             make.height.equalTo(60)
         }
         
         authorLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalTo(bookTitleLabel.snp.trailing).offset(10)
+            make.width.equalTo(100)
             make.height.equalTo(60)
         }
         priceLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.trailing.equalToSuperview().offset(-10)
+            make.width.equalTo(50)
             make.height.equalTo(60)
         }
     }

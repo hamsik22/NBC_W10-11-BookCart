@@ -22,11 +22,11 @@ class BookManager {
         request.allHTTPHeaderFields = ["Authorization": "KakaoAK \(apiKey)"]
         
         URLSession.shared.dataTask(with: request) { data, _, _ in
-          print(String(data: data!, encoding: .utf8))
+          print(String(data: data!, encoding: .utf8) ?? "No Data")
         }.resume()
     }
     
-    func fetchBookSummaries(searchValue: String ,completion: @escaping (Result<[BookInfo], Error>) -> Void) {
+    func fetchBookSummaries(searchValue: String, completion: @escaping (Result<[Document], Error>) -> Void) {
         let url = URL(string: "https://dapi.kakao.com/v3/search/book?query=\(searchValue)")!
         var request = URLRequest(url: url)
         
@@ -43,7 +43,7 @@ class BookManager {
                 do {
                     let response = try JSONDecoder().decode(BookData.self, from: data)
                     completion(.success(response.documents))
-                    print(String(data: data, encoding: .utf8))
+                    print(String(data: data, encoding: .utf8) ?? "No Data")
                 } catch {
                     completion(.failure(error))
                 }
