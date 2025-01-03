@@ -17,7 +17,7 @@ class BookDetailView: UIView {
     
     weak var delegate: BookDetailDelegate?
     
-    var bookInfo: BookInfo? {
+    var bookInfo: Document? {
         didSet {
             titleLabel.text = bookInfo?.title
             authorLabel.text = bookInfo?.authors.joined(separator: "\n")

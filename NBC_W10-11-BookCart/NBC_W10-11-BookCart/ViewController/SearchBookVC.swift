@@ -15,13 +15,19 @@ protocol SearchBookVCDelegate: AnyObject {
 class SearchBookVC: UIViewController {
     
     private let searchView = SearchBookView()
-    private var books: [BookInfo] = []
+    private var books: [Document] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("SearchBookVC")
         // Do any additional setup after loading the view.
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        searchView.searchBar.text = ""
+        self.activateSearchBar()
     }
     
 }

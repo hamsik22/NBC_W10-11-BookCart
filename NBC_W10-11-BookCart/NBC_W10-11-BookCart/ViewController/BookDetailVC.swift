@@ -11,7 +11,7 @@ import SnapKit
 class BookDetailVC: UIViewController {
     
     let bookDetail = BookDetailView()
-    var bookInfo: BookInfo?
+    var bookInfo: Document?
     weak var bookDetailDelegate: BookDetailDelegate?
     weak var bookCartDelegate: BookCartVCDelegate?
     weak var searchBookDelegate: SearchBookVCDelegate?

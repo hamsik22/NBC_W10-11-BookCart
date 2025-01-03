@@ -8,7 +8,7 @@
 import UIKit
 
 protocol BookCartVCDelegate: AnyObject {
-    func addBookItem(item: BookInfo)
+    func addBookItem(item: Document)
 }
 
 class BookCartVC: UIViewController {
@@ -16,11 +16,16 @@ class BookCartVC: UIViewController {
     weak var searchVCDelegate: SearchBookVCDelegate?
     weak var bookCartVCDelegate: BookCartVCDelegate?
     let bookCart = BookCartView()
-    var bookList: [BookInfo] = []
+    var bookList: [Document] = [] {
+        didSet {
+            updateBookList()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("BookCart DidLoad")
+        fetchBookList()
         print("BookList: \(bookList)")
         setup()
     }
@@ -90,11 +95,26 @@ extension BookCartVC: BookCartViewDelegate {
         tabBarController?.selectedIndex = 0
         searchVCDelegate?.activateSearchBar()
     }
+
 }
 extension BookCartVC: BookCartVCDelegate {
-    func addBookItem(item: BookInfo) {
+    func addBookItem(item: Document) {
         bookList.append(item)
         print("\(item.title) 추가되었습니다. count:\(bookList.count)")
         bookCart.bookListTable.reloadData()
+    }
+}
+
+//MARK: - Functions
+extension BookCartVC {
+    func fetchBookList() {
+        guard let bookList = UserDefaults.standard.loadBookData() else { return }
+        self.bookList = bookList
+        self.bookCart.bookListTable.reloadData()
+    }
+    func updateBookList() {
+        UserDefaults.standard.saveBookData(bookList)
+        guard let data = UserDefaults.standard.data(forKey: "bookList") else { return }
+        print("updateBookList: \(data)")
     }
 }

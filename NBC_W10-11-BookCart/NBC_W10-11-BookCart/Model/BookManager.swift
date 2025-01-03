@@ -26,7 +26,7 @@ class BookManager {
         }.resume()
     }
     
-    func fetchBookSummaries(searchValue: String, completion: @escaping (Result<[BookInfo], Error>) -> Void) {
+    func fetchBookSummaries(searchValue: String, completion: @escaping (Result<[Document], Error>) -> Void) {
         let url = URL(string: "https://dapi.kakao.com/v3/search/book?query=\(searchValue)")!
         var request = URLRequest(url: url)
         
