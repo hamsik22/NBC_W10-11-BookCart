@@ -58,7 +58,7 @@ extension SearchBookVC: SearchBookVCDelegate {
 }
 extension SearchBookVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 50, height: 50)
+        return CGSize(width: 80, height: 80)
     }
 }
 
@@ -69,6 +69,8 @@ extension SearchBookVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = searchView.recentBookCollectionView.dequeueReusableCell(withReuseIdentifier: CollectionCell.identifier, for: indexPath) as? CollectionCell else { return UICollectionViewCell() }
+        cell.configure(url: recentBooks[indexPath.row].thumbnail)
+        
         return cell
     }
 }
