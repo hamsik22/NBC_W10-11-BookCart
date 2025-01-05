@@ -50,6 +50,10 @@ extension BookDetailVC: BookDetailDelegate {
     }
 }
 extension BookDetailVC: SearchBookVCDelegate {
+    func checkRecentBooks() -> Bool { return true }
+    
+    func updateRecentBook() { }
+    
     func activateSearchBar() { }
     
     func didSelectBook() {

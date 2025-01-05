@@ -10,6 +10,8 @@ import SnapKit
 
 class SearchBookView: UIView {
     
+    weak var delegate: SearchBookVCDelegate?
+    
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "검색하기"
@@ -18,8 +20,7 @@ class SearchBookView: UIView {
         searchBar.layer.cornerRadius = 20
         return searchBar
     }()
-    
-    private let resultBookLabel: UILabel = {
+    private let searchResultSectionLabel: UILabel = {
         let label = UILabel()
         label.text = "검색 결과"
         label.font = .systemFont(ofSize: 25, weight: .bold)
@@ -30,11 +31,25 @@ class SearchBookView: UIView {
         let view = UITableView()
         return view
     }()
-    // TODO: latestBook: UICollectionView
+    private let recentBookSectionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "최근 본 책"
+        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.textColor = .black
+        return label
+    }()
+    let recentBookCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal // 📍 가로 스크롤 설정
+        layout.minimumLineSpacing = 10 // 셀 사이 간격
+        layout.minimumInteritemSpacing = 10 // 아이템 간 간격
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setupWithRecentBooks()
+        checkFuntions()
     }
     
     required init?(coder: NSCoder) {
@@ -45,7 +60,8 @@ class SearchBookView: UIView {
 // MARK: - Functions
 extension SearchBookView {
     private func setup() {
-        [searchBar, resultBookLabel, searchResultTableView]
+        [searchBar,
+         searchResultSectionLabel, searchResultTableView]
             .forEach{ addSubview($0)}
                 
         searchBar.snp.makeConstraints { make in
@@ -53,15 +69,57 @@ extension SearchBookView {
             make.width.equalToSuperview()
             make.height.equalTo(50)
         }
-        resultBookLabel.snp.makeConstraints { make in
+        searchResultSectionLabel.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(15)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
         searchResultTableView.snp.makeConstraints { make in
-            make.top.equalTo(resultBookLabel.snp.bottom).offset(5)
+            make.top.equalTo(searchResultSectionLabel.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().offset(10)
+        }
+    }
+    private func setupWithRecentBooks() {
+        [searchBar,
+         recentBookSectionLabel, recentBookCollectionView,
+         searchResultSectionLabel, searchResultTableView]
+            .forEach{ addSubview($0)}
+                
+        searchBar.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        recentBookSectionLabel.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(15)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        recentBookCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(recentBookSectionLabel.snp.bottom).offset(5)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.height.equalTo(80)
+        }
+        
+        searchResultSectionLabel.snp.makeConstraints { make in
+            make.top.equalTo(recentBookCollectionView.snp.bottom).offset(15)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        searchResultTableView.snp.makeConstraints { make in
+            make.top.equalTo(searchResultSectionLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(10)
+        }
+    }
+    private func checkFuntions() {
+        guard let condition = delegate?.checkRecentBooks() else { return }
+        if condition {
+            print("it's True")
+        } else {
+            print("it's False")
         }
     }
 }

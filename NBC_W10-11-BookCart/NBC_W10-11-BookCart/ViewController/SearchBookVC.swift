@@ -10,12 +10,19 @@ import UIKit
 protocol SearchBookVCDelegate: AnyObject {
     func didSelectBook()
     func activateSearchBar()
+    func updateRecentBook()
+    func checkRecentBooks() -> Bool
 }
 
 class SearchBookVC: UIViewController {
     
     private let searchView = SearchBookView()
     private var books: [Document] = []
+    private var recentBooks: [Document] = [] {
+        didSet {
+            print("recentBooks: \(recentBooks.count)")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +41,35 @@ class SearchBookVC: UIViewController {
 
 // MARK: - Delegate
 extension SearchBookVC: SearchBookVCDelegate {
+    func checkRecentBooks() -> Bool {
+        return self.recentBooks.isEmpty
+    }
+    
     func didSelectBook() {
         self.showAlert(title: "성공", message: "카트에 담았어요!")
     }
     func activateSearchBar() {
         self.searchView.searchBar.becomeFirstResponder()
+    }
+    func updateRecentBook() {
+        print("updateRecentBook()")
+        self.searchView.recentBookCollectionView.reloadData()
+    }
+}
+extension SearchBookVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 50, height: 50)
+    }
+}
+
+extension SearchBookVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        recentBooks.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = searchView.recentBookCollectionView.dequeueReusableCell(withReuseIdentifier: CollectionCell.identifier, for: indexPath) as? CollectionCell else { return UICollectionViewCell() }
+        return cell
     }
 }
 
@@ -49,7 +80,7 @@ extension SearchBookVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = searchView.searchResultTableView.dequeueReusableCell(withIdentifier: ReusableCell.identifier, for: indexPath) as? ReusableCell else { return UITableViewCell() }
+        guard let cell = searchView.searchResultTableView.dequeueReusableCell(withIdentifier: TableCell.identifier, for: indexPath) as? TableCell else { return UITableViewCell() }
         
         cell.configure(title: self.books[indexPath.row].title, author: self.books[indexPath.row].authors, price: String(self.books[indexPath.row].price))
         
@@ -67,6 +98,7 @@ extension SearchBookVC: UITableViewDelegate {
         let bookDetail = BookDetailVC()
         bookDetail.modalPresentationStyle = .formSheet
         bookDetail.bookInfo = books[indexPath.row]
+        self.recentBooks.append(books[indexPath.row])
         
         if let tabBarController = self.tabBarController,
            let cartNav = tabBarController.viewControllers?[1] as? UINavigationController,
@@ -75,6 +107,8 @@ extension SearchBookVC: UITableViewDelegate {
             bookDetail.searchBookDelegate = self
         }
         present(bookDetail, animated: true)
+        // TODO: 셀을 터치했을 때, 최근 본 책으로 정보를 저장한다.
+        updateRecentBook()
     }
 }
 extension SearchBookVC: UISearchBarDelegate {
@@ -99,10 +133,16 @@ extension SearchBookVC: UISearchBarDelegate {
 extension SearchBookVC {
     private func setup() {
         navigationController?.isNavigationBarHidden = true
+        
+        searchView.searchBar.delegate = self
+        
         searchView.searchResultTableView.delegate = self
         searchView.searchResultTableView.dataSource = self
-        searchView.searchResultTableView.register(ReusableCell.self, forCellReuseIdentifier: ReusableCell.identifier)
-        searchView.searchBar.delegate = self
+        searchView.searchResultTableView.register(TableCell.self, forCellReuseIdentifier: TableCell.identifier)
+        
+        searchView.recentBookCollectionView.delegate = self
+        searchView.recentBookCollectionView.dataSource = self
+        searchView.recentBookCollectionView.register(CollectionCell.self, forCellWithReuseIdentifier: CollectionCell.identifier)
         
         
         view.addSubview(searchView)

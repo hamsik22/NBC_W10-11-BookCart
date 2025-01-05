@@ -57,7 +57,7 @@ extension BookCartVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = bookCart.bookListTable.dequeueReusableCell(withIdentifier: ReusableCell.identifier) as? ReusableCell else { return UITableViewCell() }
+        guard let cell = bookCart.bookListTable.dequeueReusableCell(withIdentifier: TableCell.identifier) as? TableCell else { return UITableViewCell() }
         cell.configure(title: self.bookList[indexPath.row].title, author: self.bookList[indexPath.row].authors, price: String(self.bookList[indexPath.row].price))
         
         return cell
@@ -69,7 +69,7 @@ extension BookCartVC {
         navigationController?.isNavigationBarHidden = true
         bookCart.bookListTable.delegate = self
         bookCart.bookListTable.dataSource = self
-        bookCart.bookListTable.register(ReusableCell.self, forCellReuseIdentifier: ReusableCell.identifier)
+        bookCart.bookListTable.register(TableCell.self, forCellReuseIdentifier: TableCell.identifier)
         bookCart.delegate = self
         
         view.addSubview(bookCart)
