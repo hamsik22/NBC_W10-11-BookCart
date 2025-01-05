@@ -48,8 +48,7 @@ class SearchBookView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupWithRecentBooks()
-        checkFuntions()
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -60,27 +59,6 @@ class SearchBookView: UIView {
 // MARK: - Functions
 extension SearchBookView {
     private func setup() {
-        [searchBar,
-         searchResultSectionLabel, searchResultTableView]
-            .forEach{ addSubview($0)}
-                
-        searchBar.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalTo(50)
-        }
-        searchResultSectionLabel.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(15)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(50)
-        }
-        searchResultTableView.snp.makeConstraints { make in
-            make.top.equalTo(searchResultSectionLabel.snp.bottom).offset(5)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(10)
-        }
-    }
-    private func setupWithRecentBooks() {
         [searchBar,
          recentBookSectionLabel, recentBookCollectionView,
          searchResultSectionLabel, searchResultTableView]
@@ -148,15 +126,6 @@ extension SearchBookView {
         }
         
         layoutIfNeeded()
-    }
-
-    private func checkFuntions() {
-        guard let condition = delegate?.checkRecentBooks() else { return }
-        if condition {
-            print("it's True")
-        } else {
-            print("it's False")
-        }
     }
 }
 

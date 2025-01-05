@@ -10,8 +10,6 @@ import UIKit
 protocol SearchBookVCDelegate: AnyObject {
     func didSelectBook()
     func activateSearchBar()
-    func updateRecentBook()
-    func checkRecentBooks() -> Bool
 }
 
 class SearchBookVC: UIViewController {
@@ -44,19 +42,11 @@ class SearchBookVC: UIViewController {
 
 // MARK: - Delegate
 extension SearchBookVC: SearchBookVCDelegate {
-    func checkRecentBooks() -> Bool {
-        return self.recentBooks.isEmpty
-    }
-    
     func didSelectBook() {
         self.showAlert(title: "성공", message: "카트에 담았어요!")
     }
     func activateSearchBar() {
         self.searchView.searchBar.becomeFirstResponder()
-    }
-    func updateRecentBook() {
-        print("updateRecentBook()")
-        self.searchView.recentBookCollectionView.reloadData()
     }
 }
 extension SearchBookVC: UICollectionViewDelegateFlowLayout {
@@ -103,7 +93,6 @@ extension SearchBookVC: UITableViewDelegate {
         let bookDetail = BookDetailVC()
         bookDetail.modalPresentationStyle = .formSheet
         bookDetail.bookInfo = books[indexPath.row]
-        self.recentBooks.append(books[indexPath.row])
         
         if let tabBarController = self.tabBarController,
            let cartNav = tabBarController.viewControllers?[1] as? UINavigationController,
@@ -112,8 +101,8 @@ extension SearchBookVC: UITableViewDelegate {
             bookDetail.searchBookDelegate = self
         }
         present(bookDetail, animated: true)
-        // TODO: 셀을 터치했을 때, 최근 본 책으로 정보를 저장한다.
-        updateRecentBook()
+        
+        addRecentBook(books[indexPath.row])
     }
 }
 extension SearchBookVC: UISearchBarDelegate {
@@ -158,6 +147,17 @@ extension SearchBookVC {
         }
         
         searchView.updateRecentBookVisibility(isEmpty: recentBooks.isEmpty)
+    }
+    private func addRecentBook(_ book: Document) {
+        if let index = recentBooks.firstIndex(where: { $0.isbn == book.isbn }) {
+            recentBooks.remove(at: index)
+        }
+        
+        recentBooks.insert(book, at: 0)
+        
+        if recentBooks.count > 10 {
+            recentBooks.removeLast()
+        }
     }
 }
 
