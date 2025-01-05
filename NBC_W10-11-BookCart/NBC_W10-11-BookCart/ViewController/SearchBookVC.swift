@@ -21,8 +21,11 @@ class SearchBookVC: UIViewController {
     private var recentBooks: [Document] = [] {
         didSet {
             print("recentBooks: \(recentBooks.count)")
+            searchView.updateRecentBookVisibility(isEmpty: recentBooks.isEmpty)
+            searchView.recentBookCollectionView.reloadData()
         }
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,7 +138,6 @@ extension SearchBookVC: UISearchBarDelegate {
 extension SearchBookVC {
     private func setup() {
         navigationController?.isNavigationBarHidden = true
-        
         searchView.searchBar.delegate = self
         
         searchView.searchResultTableView.delegate = self
@@ -146,7 +148,6 @@ extension SearchBookVC {
         searchView.recentBookCollectionView.dataSource = self
         searchView.recentBookCollectionView.register(CollectionCell.self, forCellWithReuseIdentifier: CollectionCell.identifier)
         
-        
         view.addSubview(searchView)
         
         searchView.snp.makeConstraints { make in
@@ -155,6 +156,8 @@ extension SearchBookVC {
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.centerX.equalToSuperview()
         }
+        
+        searchView.updateRecentBookVisibility(isEmpty: recentBooks.isEmpty)
     }
 }
 

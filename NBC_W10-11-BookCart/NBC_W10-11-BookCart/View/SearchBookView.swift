@@ -84,22 +84,23 @@ extension SearchBookView {
         [searchBar,
          recentBookSectionLabel, recentBookCollectionView,
          searchResultSectionLabel, searchResultTableView]
-            .forEach{ addSubview($0)}
+            .forEach { addSubview($0) }
                 
         searchBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalTo(50)
         }
+        
         recentBookSectionLabel.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(15)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
+        
         recentBookCollectionView.snp.makeConstraints { make in
             make.top.equalTo(recentBookSectionLabel.snp.bottom).offset(5)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(80)
         }
         
@@ -108,12 +109,47 @@ extension SearchBookView {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
+        
         searchResultTableView.snp.makeConstraints { make in
             make.top.equalTo(searchResultSectionLabel.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().offset(10)
         }
     }
+
+    func updateRecentBookVisibility(isEmpty: Bool) {
+        recentBookSectionLabel.isHidden = isEmpty
+        recentBookCollectionView.isHidden = isEmpty
+        
+        if isEmpty {
+            searchResultSectionLabel.snp.remakeConstraints { make in
+                make.top.equalTo(searchBar.snp.bottom).offset(15)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+            }
+        } else {
+            recentBookSectionLabel.snp.remakeConstraints { make in
+                make.top.equalTo(searchBar.snp.bottom).offset(15)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+            }
+            
+            recentBookCollectionView.snp.remakeConstraints { make in
+                make.top.equalTo(recentBookSectionLabel.snp.bottom).offset(5)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(80)
+            }
+            
+            searchResultSectionLabel.snp.remakeConstraints { make in
+                make.top.equalTo(recentBookCollectionView.snp.bottom).offset(15)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+            }
+        }
+        
+        layoutIfNeeded()
+    }
+
     private func checkFuntions() {
         guard let condition = delegate?.checkRecentBooks() else { return }
         if condition {
