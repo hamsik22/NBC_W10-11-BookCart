@@ -35,7 +35,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = tabBarController
         self.window = window
         window.makeKeyAndVisible()
-        print(tabBarController.viewControllers)
         
     }
 
