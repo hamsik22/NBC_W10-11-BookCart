@@ -10,6 +10,8 @@ import SnapKit
 
 class SearchBookView: UIView {
     
+    weak var delegate: SearchBookVCDelegate?
+    
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "검색하기"
@@ -18,19 +20,31 @@ class SearchBookView: UIView {
         searchBar.layer.cornerRadius = 20
         return searchBar
     }()
-    
-    private let resultBookLabel: UILabel = {
+    let searchResultTableView: UITableView = {
+        let view = UITableView()
+        return view
+    }()
+    let recentBookCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
+    private let recentBookSectionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "최근 본 책"
+        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.textColor = .black
+        return label
+    }()
+    private let searchResultSectionLabel: UILabel = {
         let label = UILabel()
         label.text = "검색 결과"
         label.font = .systemFont(ofSize: 25, weight: .bold)
         label.textColor = .black
         return label
     }()
-    let searchResultTableView: UITableView = {
-        let view = UITableView()
-        return view
-    }()
-    // TODO: latestBook: UICollectionView
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,24 +59,73 @@ class SearchBookView: UIView {
 // MARK: - Functions
 extension SearchBookView {
     private func setup() {
-        [searchBar, resultBookLabel, searchResultTableView]
-            .forEach{ addSubview($0)}
+        [searchBar,
+         recentBookSectionLabel, recentBookCollectionView,
+         searchResultSectionLabel, searchResultTableView]
+            .forEach { addSubview($0) }
                 
         searchBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalTo(50)
         }
-        resultBookLabel.snp.makeConstraints { make in
+        
+        recentBookSectionLabel.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom).offset(15)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
+        
+        recentBookCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(recentBookSectionLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(80)
+        }
+        
+        searchResultSectionLabel.snp.makeConstraints { make in
+            make.top.equalTo(recentBookCollectionView.snp.bottom).offset(15)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        
         searchResultTableView.snp.makeConstraints { make in
-            make.top.equalTo(resultBookLabel.snp.bottom).offset(5)
+            make.top.equalTo(searchResultSectionLabel.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().offset(10)
         }
+    }
+
+    func updateRecentBookVisibility(isEmpty: Bool) {
+        recentBookSectionLabel.isHidden = isEmpty
+        recentBookCollectionView.isHidden = isEmpty
+        
+        if isEmpty {
+            searchResultSectionLabel.snp.remakeConstraints { make in
+                make.top.equalTo(searchBar.snp.bottom).offset(15)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+            }
+        } else {
+            recentBookSectionLabel.snp.remakeConstraints { make in
+                make.top.equalTo(searchBar.snp.bottom).offset(15)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+            }
+            
+            recentBookCollectionView.snp.remakeConstraints { make in
+                make.top.equalTo(recentBookSectionLabel.snp.bottom).offset(5)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(80)
+            }
+            
+            searchResultSectionLabel.snp.remakeConstraints { make in
+                make.top.equalTo(recentBookCollectionView.snp.bottom).offset(15)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(50)
+            }
+        }
+        
+        layoutIfNeeded()
     }
 }
 

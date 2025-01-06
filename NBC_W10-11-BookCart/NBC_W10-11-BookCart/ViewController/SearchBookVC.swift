@@ -16,6 +16,14 @@ class SearchBookVC: UIViewController {
     
     private let searchView = SearchBookView()
     private var books: [Document] = []
+    private var recentBooks: [Document] = [] {
+        didSet {
+            print("recentBooks: \(recentBooks.count)")
+            searchView.updateRecentBookVisibility(isEmpty: recentBooks.isEmpty)
+            searchView.recentBookCollectionView.reloadData()
+        }
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,15 +49,30 @@ extension SearchBookVC: SearchBookVCDelegate {
         self.searchView.searchBar.becomeFirstResponder()
     }
 }
-
-// MARK: - Extensions
+extension SearchBookVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 80, height: 80)
+    }
+}
+extension SearchBookVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        recentBooks.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = searchView.recentBookCollectionView.dequeueReusableCell(withReuseIdentifier: CollectionCell.identifier, for: indexPath) as? CollectionCell else { return UICollectionViewCell() }
+        cell.configure(url: recentBooks[indexPath.row].thumbnail)
+        
+        return cell
+    }
+}
 extension SearchBookVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.books.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = searchView.searchResultTableView.dequeueReusableCell(withIdentifier: ReusableCell.identifier, for: indexPath) as? ReusableCell else { return UITableViewCell() }
+        guard let cell = searchView.searchResultTableView.dequeueReusableCell(withIdentifier: TableCell.identifier, for: indexPath) as? TableCell else { return UITableViewCell() }
         
         cell.configure(title: self.books[indexPath.row].title, author: self.books[indexPath.row].authors, price: String(self.books[indexPath.row].price))
         
@@ -75,6 +98,8 @@ extension SearchBookVC: UITableViewDelegate {
             bookDetail.searchBookDelegate = self
         }
         present(bookDetail, animated: true)
+        
+        addRecentBook(books[indexPath.row])
     }
 }
 extension SearchBookVC: UISearchBarDelegate {
@@ -99,11 +124,15 @@ extension SearchBookVC: UISearchBarDelegate {
 extension SearchBookVC {
     private func setup() {
         navigationController?.isNavigationBarHidden = true
-        searchView.searchResultTableView.delegate = self
-        searchView.searchResultTableView.dataSource = self
-        searchView.searchResultTableView.register(ReusableCell.self, forCellReuseIdentifier: ReusableCell.identifier)
         searchView.searchBar.delegate = self
         
+        searchView.searchResultTableView.delegate = self
+        searchView.searchResultTableView.dataSource = self
+        searchView.searchResultTableView.register(TableCell.self, forCellReuseIdentifier: TableCell.identifier)
+        
+        searchView.recentBookCollectionView.delegate = self
+        searchView.recentBookCollectionView.dataSource = self
+        searchView.recentBookCollectionView.register(CollectionCell.self, forCellWithReuseIdentifier: CollectionCell.identifier)
         
         view.addSubview(searchView)
         
@@ -113,9 +142,21 @@ extension SearchBookVC {
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
             make.centerX.equalToSuperview()
         }
+        
+        searchView.updateRecentBookVisibility(isEmpty: recentBooks.isEmpty)
+    }
+    private func addRecentBook(_ book: Document) {
+        if let index = recentBooks.firstIndex(where: { $0.isbn == book.isbn }) {
+            recentBooks.remove(at: index)
+        }
+        
+        recentBooks.insert(book, at: 0)
+        
+        if recentBooks.count > 10 {
+            recentBooks.removeLast()
+        }
     }
 }
-
 @available(iOS 17.0, *)
 #Preview {
     UINavigationController(rootViewController: SearchBookVC())

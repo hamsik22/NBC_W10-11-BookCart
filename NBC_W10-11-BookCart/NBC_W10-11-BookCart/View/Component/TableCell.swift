@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 
-class ReusableCell: UITableViewCell {
+class TableCell: UITableViewCell {
     
-    static let identifier: String = "ReusableCell"
+    static let identifier: String = "TableCell"
     
     private let bookTitleLabel: UILabel = {
         let label = UILabel()
@@ -46,7 +46,7 @@ class ReusableCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - SetUp
+    // MARK: - Setup
     private func setup() {
         [bookTitleLabel, authorLabel, priceLabel]
             .forEach { addSubview($0) }

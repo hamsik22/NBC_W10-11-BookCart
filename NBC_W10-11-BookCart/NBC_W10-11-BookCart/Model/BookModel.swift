@@ -7,20 +7,6 @@
 
 import Foundation
 
-//struct BookInfo: Codable {
-//    let title: String
-//    let authors: [String]
-//    let price: Int
-//    let thumbnail: String
-//    let contents: String
-//}
-//
-//struct BookData: Codable {
-//    let documents: [BookInfo]
-//}
-
-import Foundation
-
 // MARK: - BookInfo
 struct BookData: Codable {
     let meta: Meta

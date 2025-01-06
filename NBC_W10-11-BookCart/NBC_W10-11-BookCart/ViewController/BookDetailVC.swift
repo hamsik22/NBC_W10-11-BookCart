@@ -50,21 +50,17 @@ extension BookDetailVC: BookDetailDelegate {
     }
 }
 extension BookDetailVC: SearchBookVCDelegate {
+    func checkRecentBooks() -> Bool { return true }
+    
+    func updateRecentBook() { }
+    
     func activateSearchBar() { }
     
     func didSelectBook() {
         searchBookDelegate?.didSelectBook()
     }
 }
-extension UIViewController {
-    /// 간단한 경고창을 생성하는 함수
-    func showAlert(title: String = "경고", message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-        alert.addAction(okAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-}
+
 
 @available(iOS 17.0, *)
 #Preview {

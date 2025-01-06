@@ -31,7 +31,28 @@ class BookCartVC: UIViewController {
     }
 }
 
-// MARK: - Extensions
+// MARK: - Delegate
+extension BookCartVC: BookCartViewDelegate {
+    func didTapDeleteAllButton() {
+        self.bookList.removeAll()
+        print("전체 삭제: \(bookList)")
+        self.bookCart.bookListTable.reloadData()
+    }
+    
+    func didTapAddBookButton() {
+        print("추가")
+        tabBarController?.selectedIndex = 0
+        searchVCDelegate?.activateSearchBar()
+    }
+
+}
+extension BookCartVC: BookCartVCDelegate {
+    func addBookItem(item: Document) {
+        bookList.append(item)
+        print("\(item.title) 추가되었습니다. count:\(bookList.count)")
+        bookCart.bookListTable.reloadData()
+    }
+}
 extension BookCartVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         // 삭제 액션 정의
@@ -57,7 +78,7 @@ extension BookCartVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = bookCart.bookListTable.dequeueReusableCell(withIdentifier: ReusableCell.identifier) as? ReusableCell else { return UITableViewCell() }
+        guard let cell = bookCart.bookListTable.dequeueReusableCell(withIdentifier: TableCell.identifier) as? TableCell else { return UITableViewCell() }
         cell.configure(title: self.bookList[indexPath.row].title, author: self.bookList[indexPath.row].authors, price: String(self.bookList[indexPath.row].price))
         
         return cell
@@ -69,7 +90,7 @@ extension BookCartVC {
         navigationController?.isNavigationBarHidden = true
         bookCart.bookListTable.delegate = self
         bookCart.bookListTable.dataSource = self
-        bookCart.bookListTable.register(ReusableCell.self, forCellReuseIdentifier: ReusableCell.identifier)
+        bookCart.bookListTable.register(TableCell.self, forCellReuseIdentifier: TableCell.identifier)
         bookCart.delegate = self
         
         view.addSubview(bookCart)
@@ -82,30 +103,6 @@ extension BookCartVC {
         }
     }
 }
-// MARK: - Delegate
-extension BookCartVC: BookCartViewDelegate {
-    func didTapDeleteAllButton() {
-        self.bookList.removeAll()
-        print("전체 삭제: \(bookList)")
-        self.bookCart.bookListTable.reloadData()
-    }
-    
-    func didTapAddBookButton() {
-        print("추가")
-        tabBarController?.selectedIndex = 0
-        searchVCDelegate?.activateSearchBar()
-    }
-
-}
-extension BookCartVC: BookCartVCDelegate {
-    func addBookItem(item: Document) {
-        bookList.append(item)
-        print("\(item.title) 추가되었습니다. count:\(bookList.count)")
-        bookCart.bookListTable.reloadData()
-    }
-}
-
-//MARK: - Functions
 extension BookCartVC {
     func fetchBookList() {
         guard let bookList = UserDefaults.standard.loadBookData() else { return }

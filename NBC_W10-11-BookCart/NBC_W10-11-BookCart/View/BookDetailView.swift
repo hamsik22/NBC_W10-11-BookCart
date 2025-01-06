@@ -16,7 +16,6 @@ protocol BookDetailDelegate: AnyObject {
 class BookDetailView: UIView {
     
     weak var delegate: BookDetailDelegate?
-    
     var bookInfo: Document? {
         didSet {
             titleLabel.text = bookInfo?.title

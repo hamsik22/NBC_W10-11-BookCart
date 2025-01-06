@@ -13,19 +13,6 @@ class BookManager {
     
     private let apiKey = Bundle.main.object(forInfoDictionaryKey: "APIKey") as! String
     
-    func testAPIKeys() {
-//        let url = URL(string: "https://dapi.kakao.com/v3/search/book?query=\(value)")!
-        let url = URL(string: "https://dapi.kakao.com/v3/search/book?query=기시미 이치로")!
-        
-        var request = URLRequest(url: url)
-        
-        request.allHTTPHeaderFields = ["Authorization": "KakaoAK \(apiKey)"]
-        
-        URLSession.shared.dataTask(with: request) { data, _, _ in
-          print(String(data: data!, encoding: .utf8) ?? "No Data")
-        }.resume()
-    }
-    
     func fetchBookSummaries(searchValue: String, completion: @escaping (Result<[Document], Error>) -> Void) {
         let url = URL(string: "https://dapi.kakao.com/v3/search/book?query=\(searchValue)")!
         var request = URLRequest(url: url)
