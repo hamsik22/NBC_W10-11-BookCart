@@ -15,6 +15,10 @@ protocol BookCartViewDelegate: AnyObject {
 class BookCartView: UIView {
     
     weak var delegate: BookCartViewDelegate?
+    var bookListTable: UITableView = {
+        let table = UITableView()
+        return table
+    }()
     
     private let deleteAllButton: UIButton = {
         let button = UIButton()
@@ -35,10 +39,7 @@ class BookCartView: UIView {
         label.textAlignment = .center
         return label
     }()
-    var bookListTable: UITableView = {
-        let table = UITableView()
-        return table
-    }()
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)

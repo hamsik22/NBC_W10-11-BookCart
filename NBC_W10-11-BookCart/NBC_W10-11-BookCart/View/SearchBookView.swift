@@ -20,16 +20,16 @@ class SearchBookView: UIView {
         searchBar.layer.cornerRadius = 20
         return searchBar
     }()
-    private let searchResultSectionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "검색 결과"
-        label.font = .systemFont(ofSize: 25, weight: .bold)
-        label.textColor = .black
-        return label
-    }()
     let searchResultTableView: UITableView = {
         let view = UITableView()
         return view
+    }()
+    let recentBookCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     private let recentBookSectionLabel: UILabel = {
         let label = UILabel()
@@ -38,12 +38,12 @@ class SearchBookView: UIView {
         label.textColor = .black
         return label
     }()
-    let recentBookCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal // 📍 가로 스크롤 설정
-        layout.minimumLineSpacing = 10 // 셀 사이 간격
-        layout.minimumInteritemSpacing = 10 // 아이템 간 간격
-        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    private let searchResultSectionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "검색 결과"
+        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.textColor = .black
+        return label
     }()
     
     override init(frame: CGRect) {

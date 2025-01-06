@@ -17,13 +17,16 @@ class CollectionCell: UICollectionViewCell {
         image.image = UIImage(systemName: "photo")
         return image
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    // MARK: - Setup
     private func setup() {
         self.addSubview(bookThumbnail)
         bookThumbnail.frame = contentView.bounds

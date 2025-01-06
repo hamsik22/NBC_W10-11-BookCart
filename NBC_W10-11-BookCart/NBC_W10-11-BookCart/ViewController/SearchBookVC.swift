@@ -54,7 +54,6 @@ extension SearchBookVC: UICollectionViewDelegateFlowLayout {
         return CGSize(width: 80, height: 80)
     }
 }
-
 extension SearchBookVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         recentBooks.count
@@ -67,8 +66,6 @@ extension SearchBookVC: UICollectionViewDataSource {
         return cell
     }
 }
-
-// MARK: - Extensions
 extension SearchBookVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.books.count
@@ -160,7 +157,6 @@ extension SearchBookVC {
         }
     }
 }
-
 @available(iOS 17.0, *)
 #Preview {
     UINavigationController(rootViewController: SearchBookVC())

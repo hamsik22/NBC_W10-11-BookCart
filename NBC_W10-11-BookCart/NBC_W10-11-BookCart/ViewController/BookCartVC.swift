@@ -31,7 +31,28 @@ class BookCartVC: UIViewController {
     }
 }
 
-// MARK: - Extensions
+// MARK: - Delegate
+extension BookCartVC: BookCartViewDelegate {
+    func didTapDeleteAllButton() {
+        self.bookList.removeAll()
+        print("전체 삭제: \(bookList)")
+        self.bookCart.bookListTable.reloadData()
+    }
+    
+    func didTapAddBookButton() {
+        print("추가")
+        tabBarController?.selectedIndex = 0
+        searchVCDelegate?.activateSearchBar()
+    }
+
+}
+extension BookCartVC: BookCartVCDelegate {
+    func addBookItem(item: Document) {
+        bookList.append(item)
+        print("\(item.title) 추가되었습니다. count:\(bookList.count)")
+        bookCart.bookListTable.reloadData()
+    }
+}
 extension BookCartVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         // 삭제 액션 정의
@@ -82,30 +103,6 @@ extension BookCartVC {
         }
     }
 }
-// MARK: - Delegate
-extension BookCartVC: BookCartViewDelegate {
-    func didTapDeleteAllButton() {
-        self.bookList.removeAll()
-        print("전체 삭제: \(bookList)")
-        self.bookCart.bookListTable.reloadData()
-    }
-    
-    func didTapAddBookButton() {
-        print("추가")
-        tabBarController?.selectedIndex = 0
-        searchVCDelegate?.activateSearchBar()
-    }
-
-}
-extension BookCartVC: BookCartVCDelegate {
-    func addBookItem(item: Document) {
-        bookList.append(item)
-        print("\(item.title) 추가되었습니다. count:\(bookList.count)")
-        bookCart.bookListTable.reloadData()
-    }
-}
-
-//MARK: - Functions
 extension BookCartVC {
     func fetchBookList() {
         guard let bookList = UserDefaults.standard.loadBookData() else { return }

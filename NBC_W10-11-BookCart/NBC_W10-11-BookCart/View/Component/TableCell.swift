@@ -46,7 +46,7 @@ class TableCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - SetUp
+    // MARK: - Setup
     private func setup() {
         [bookTitleLabel, authorLabel, priceLabel]
             .forEach { addSubview($0) }
